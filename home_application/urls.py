@@ -6,6 +6,8 @@ from . import views
 
 urlpatterns = (
     url(r'^$', views.home),
-    url(r'^dev-guide/$', views.dev_guide),
-    url(r'^contact/$', views.contact),
+    url(r'^home/$', views.home),
+    url(r'^record/$', views.record),
+    url(r'^api/get_set/$', views.get_set),
+    url(r'^api/get_host/$', views.get_host),
 )
