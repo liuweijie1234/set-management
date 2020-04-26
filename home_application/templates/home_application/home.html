@@ -45,7 +45,7 @@
                                 <img src="https://magicbox.bk.tencent.com/static_api/v3/bk/images/logo.png" class="logo"> </a>
                         </div>
                         <ul class="nav navbar-nav pull-left m0">
-                            <li class="active"><a href="{{ SITE_URL }}home">首页</a></li>
+                            <li class="active"><a href="{{ SITE_URL }}">首页</a></li>
                             <li><a href="{{ SITE_URL }}record">历史任务</a></li>
                         </ul>
                         <div class="navbar-header pull-right">
@@ -137,7 +137,6 @@
         })
     });
     $(".ele1").change(function() {
-
         $.ajax({
             url: '{{ SITE_URL }}api/get_host/',
             type: 'GET',
@@ -155,11 +154,6 @@
             }
         })
     });
-    $(document).on('change','input.hostip',function () {
-        $('input:checkbox:checked').each(function() {});
-        ips.push($(this).val());
-        console.log(ips);
-    });
 
     $('.king-success').click(function () {
         $.ajax({
@@ -167,8 +161,7 @@
             type: 'POST',
             data:{
                 "biz_id":$('.ele').val(),
-                "script_id":$('.ele1').val(),
-                "ip_id":ips,
+                "set_id":$('.ele1').val(),
                 'csrfmiddlewaretoken': "{{ csrf_token }}"
             },
             success: function (response) {

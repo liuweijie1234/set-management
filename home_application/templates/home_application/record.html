@@ -33,10 +33,10 @@
     <link href="https://magicbox.bk.tencent.com/static_api/v3/assets/daterangepicker-2.0.5/daterangepicker-2.0.css" rel="stylesheet">
     <link href="https://magicbox.bk.tencent.com/static_api/v3/bk/css-pro/bk.css" rel="stylesheet">
     <link href="https://magicbox.bk.tencent.com/static_api/v3/assets/artDialog-6.0.4/css/ui-dialog.css" rel="stylesheet">
+    <link href="https://magicbox.bk.tencent.com/static_api/v3/assets/daterangepicker-2.0.5/daterangepicker.css" rel="stylesheet">
     <script src="https://magicbox.bk.tencent.com/static_api/v3/assets/daterangepicker-2.0.5/moment.min.js"></script>
     <script src="https://magicbox.bk.tencent.com/static_api/v3/assets/daterangepicker-2.0.5/daterangepicker.js"></script>
     <script src="https://magicbox.bk.tencent.com/static_api/v3/assets/artDialog-6.0.4/dist/dialog-min.js"></script>
-    <link href="https://magicbox.bk.tencent.com/static_api/v3/assets/daterangepicker-2.0.5/daterangepicker.css" rel="stylesheet">
 </head>
 
 <body class="bg-white" data-bg-color="bg-white">
@@ -50,7 +50,7 @@
                                 <img src="https://magicbox.bk.tencent.com/static_api/v3/bk/images/logo.png" class="logo"> </a>
                         </div>
                         <ul class="nav navbar-nav pull-left m0">
-                            <li><a href="{{ SITE_URL }}home">首页</a></li>
+                            <li><a href="{{ SITE_URL }}">首页</a></li>
                             <li class="active"><a href="{{ SITE_URL }}record">历史任务</a></li>
                         </ul>
                         <div class="navbar-header pull-right">
@@ -71,7 +71,7 @@
                     <label class="col-sm-3 control-label bk-lh30 pt0">选择业务：</label>
                     <div class="col-sm-9">
                         <select name="" id="" class="bk-valign-top ele" style="width: 30%;height: 28px;">
-                            {% for biz_name, biz_id in info %}
+                            {% for biz_name, biz_id in biz %}
                                 <option value={{ biz_id }}>{{ biz_name }}</option>
                             {% endfor %}
                         </select>
@@ -98,7 +98,7 @@
                             <th style="width:15%">操作时间</th>
                             <th style="width:15%">主机列表</th>
                             <th style="width:10%">作业状态</th>
-                            <th style="width:25%">作业日志</th>
+                            <th style="width:40%">作业日志(内存|磁盘|CPU)</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -108,9 +108,15 @@
                                 <td>{{ doinfo.username }}</td>
                                 <td>{{ doinfo.jobid }}</td>
                                 <td>{{ doinfo.starttime }}</td>
-                                <td>{{ doinfo.iplist }}</td>
-                                <td>{{ doinfo.jobstatus }}</td>
-                                <td>{{ doinfo.joblog}}</td>
+                                <td>
+                                    {{ doinfo.iplist }}
+                                </td>
+                                {% if doinfo.status == 3 %}
+                                <td>执行成功</td>
+                                {% else %}
+                                <td>执行失败</td>
+                                {% endif %}
+                                <td>{{ doinfo.log}}</td>
                             </tr>
                         {% endfor %}
                     </tbody>
@@ -138,7 +144,7 @@
         },
         "locale": {
             "format": "YYYY-MM-DD HH:mm:ss",// 日期格式
-            "separator": " 至 ",
+            "separator": " ~ ",
             "applyLabel": "确定",
             "cancelLabel": "取消",
             "fromLabel": "从",
@@ -187,9 +193,7 @@
             type: 'POST',
             data:{
                 "biz_id":$('.ele').val(),
-                "username":$('.ele1').val(),
-                "script_id":$('.ele2').val(),
-                "time":$('#daterangepicker_demo2').val(),
+                "time":$('#daterangepicker_demo3').val(),
                 'csrfmiddlewaretoken': "{{ csrf_token }}"
             },
             success: function (res) {

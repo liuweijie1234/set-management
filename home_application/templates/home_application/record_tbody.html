@@ -1,0 +1,11 @@
+{% for doinfo in doinfos %}
+    <tr>
+        <td>{{ doinfo.businessname }}</td>
+        <td>{{ doinfo.username }}</td>
+        <td>{{ doinfo.jobid }}</td>
+        <td>{{ doinfo.starttime }}</td>
+        <td>{{ doinfo.iplist }}</td>
+        <td>{{ doinfo.status }}</td>
+        <td>{{ doinfo.log }}</td>
+    </tr>
+{% endfor %}
