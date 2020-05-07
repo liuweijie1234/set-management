@@ -12,3 +12,4 @@ urlpatterns = (
     url(r'^api/execute/$', views.execute_script),
     url(r'^api/inquiry/$', views.inquiry),
 )
+
